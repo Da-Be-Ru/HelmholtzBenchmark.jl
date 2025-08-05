@@ -15,21 +15,12 @@ makedocs(;
     ),
     pages = [
         "Home" => "index.md",
+        "Changelog" => "changelog.md",
         "API Reference" => "api.md",
     ],
 )
 
-# deploydocs(;
-#     repo="github.com/Da-Be-Ru/HelmholtzBenchmark.jl",
-#     devbranch="master",
-# )
-
-# makedocs(
-#     sitename = "HelmholtzBenchmark",
-#     format = Documenter.HTML(),
-#     modules = [HelmholtzBenchmark],
-#     pages = [
-#         "Home" => "index.md",
-#         "API Reference" => "api.md"
-#     ]
-# )
+deploydocs(;
+    repo="github.com/Da-Be-Ru/HelmholtzBenchmark.jl",
+    devbranch="master",
+)

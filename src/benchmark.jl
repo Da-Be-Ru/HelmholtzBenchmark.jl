@@ -1,4 +1,5 @@
 """
+    run_comparison(k::Real, dim::Int = 1, n::Int = 100)
 Compare direct (UMFPACK) and iterative (GMRES) solvers for the Helmholtz equation for a single wave number `k`.
 """
 function run_comparison(k::Real, dim::Int = 1, n::Int = 100)
@@ -27,6 +28,10 @@ function run_comparison(k::Real, dim::Int = 1, n::Int = 100)
     return result
 end
 
+"""
+    run_benchmark(k_values::Vector{<:Real}, dim::Int = 1, n::Int = 100)
+Compare direct (UMFPACK) and iterative (GMRES) solvers for the Helmholtz equation for a number of wave numbers `k_values`.
+"""
 function run_benchmark(k_values::Vector{<:Real}, dim::Int = 1, n::Int = 100)
     results = Dict()
     for k in k_values
@@ -41,7 +46,7 @@ end
     verify_solution()
 
 Verify the implementation by comparing with the exact solution
-for k=0 and f=1, where u(x) = (1/2)x(1-x).
+for ``k=0`` and ``f=1``, where ``u(x) = (1/2)x(1-x)``.
 """
 function verify_solution()
     n = 100

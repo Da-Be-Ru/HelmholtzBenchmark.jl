@@ -2,10 +2,10 @@
 """
     discretize_helmholtz(n::Int, k::Real) -> (A::SparseMatrixCSC{Float64,Int}, b::Vector{Float64})
 
-Discretize the Helmholtz equation (-∇²-k²)u = f on [0,1] using second-order finite differences.
-Uses n interior points (resulting in an n×n matrix).
-f is set to a delta function at x = 1/2.
-Returns the system matrix A and the right-hand side vector b.
+Discretize the Helmholtz equation ``(-∇²-k²)u = f`` on ``[0,1]`` using second-order finite differences.
+Uses ``n`` interior points (resulting in an ``n \\times n`` matrix).
+``f`` is set to a delta function at ``x = 1/2``.
+Returns the system matrix `A` and the right-hand side vector `b`.
 """
 function discretize_helmholtz(n::Int, k::Real)
     h = 1 / (n + 1)  # grid spacing
