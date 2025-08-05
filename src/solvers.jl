@@ -21,9 +21,11 @@ end
 
 Solve the Helmholtz system using GMRES iterative solver.
 """
-function solve_helmholtz_iterative(A::AbstractMatrix, b::AbstractVector; 
-                                 tol::Real=1e-6, maxiter::Int=100)
+function solve_helmholtz_iterative(
+        A::AbstractMatrix, b::AbstractVector;
+        tol::Real = 1.0e-6, maxiter::Int = 100
+    )
     prob = LinearProblem(A, b)
-    sol = solve(prob, KrylovJL_GMRES(); abstol=tol, maxiters=maxiter)
+    sol = solve(prob, KrylovJL_GMRES(); abstol = tol, maxiters = maxiter)
     return sol.u
 end

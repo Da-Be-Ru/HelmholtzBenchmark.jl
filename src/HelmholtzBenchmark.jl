@@ -10,11 +10,11 @@ include("benchmark.jl")
 
 # Export main functionality
 export discretize_helmholtz,
-       solve_helmholtz_direct,
-       solve_helmholtz_iterative,
-       run_comparison,
-       run_benchmark,
-       verify_solution
+    solve_helmholtz_direct,
+    solve_helmholtz_iterative,
+    run_comparison,
+    run_benchmark,
+    verify_solution
 
 # override DrWatson directory functions so they continue working in the testing environment
 # see https://github.com/JuliaDynamics/DrWatson.jl/issues/434
