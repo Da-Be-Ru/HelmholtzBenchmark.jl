@@ -5,7 +5,7 @@
 
 # HelmholtzBenchmark.jl
 
-A Julia package for benchmarking solvers for the Helmholtz equation in 1D usind a simple finite difference discretization.
+A Julia package for benchmarking solvers for the Helmholtz equation in 1D using a simple finite difference discretization.
 
 ## Problem Description
 
@@ -27,9 +27,17 @@ The source term is a delta function at $x=1/2$, i.e. $f(x) = \delta(x-1/2)$.
 
 ## Installation
 
+Clone the repository:
+```bash
+$ git clone https://github.com/Da-Be-Ru/HelmholtzBenchmark.jl
+$ cd HelmholtzBenchmark.jl
+$ julia --project=.
+```
+and then instantiate the project:
 ```julia
-using Pkg
-Pkg.add(url="https://github.com/Da-Be-Ru/HelmholtzBenchmark.jl")
+# hit ] to access the pkg mode
+(HelmholtzBenchmark) pkg> instantiate
+# hit backspace to return to the julian mode
 ```
 
 ## Quick Start
@@ -38,13 +46,15 @@ You can run a quick benchmark manually:
 
 ```julia
 using HelmholtzBenchmark
+using LinearAlgebra
 
 # Run benchmark for different k values
 k_values = [0.0, 10.0, 100.0, 1000.0]
 results = run_benchmark(k_values)
 
 # Verify implementation against exact solution
-error = verify_solution()
+x, u_numerical, u_exact = verify_solution()
+error = norm(u_numerical - u_exact, Inf)
 println("Maximum error: ", error)
 ```
 
