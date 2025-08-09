@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get current version
+        id: version
+        run: |
+          VERSION="v$(grep -oP 'version = "\K[0-9]+\.[0-9]+\.[0-9]+' Project.toml)"
+          echo "Current version: $VERSION"
+          echo "::set-output name=version::$VERSION"
+
+      - name: Get previous version (last tag)
+        id: prev_version
+        run: |
+          PREV_VERSION=$(git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
+          echo "Previous version: $PREV_VERSION"
+          echo "::set-output name=prev_version::$PREV_VERSION"
+
+      - name: Compare versions
+        id: version_check
+        run: |
+          CURRENT_VERSION=${{ steps.version.outputs.version }}
+          PREV_VERSION=${{ steps.prev_version.outputs.prev_version }}
+
+          if [ "$CURRENT_VERSION" != "$PREV_VERSION" ]; then
+            echo "New version: $CURRENT_VERSION, Previous: $PREV_VERSION"
+          else
+            echo "No version change. Skipping release."
+            exit 1
+          fi
+
+      - name: Create Git tag
+        id: git_tag
+        if: steps.version_check.conclusion == 'success'
+        run: |
+          NEW_VERSION=${{ steps.version.outputs.version }}
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+          git tag "$NEW_VERSION"
+          git push origin "$NEW_VERSION"
+
+      - name: Create GitHub Release
+        if: steps.git_tag.conclusion == 'success'
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ steps.version.outputs.version }}
+          generate_release_notes: true
+          token: ${{ secrets.GITHUB_TOKEN }}
