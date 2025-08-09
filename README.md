@@ -63,4 +63,6 @@ or automatically generate the assorted data and plots from the
 
 ```julia
 include("./scripts/run_benchmark.jl")
+
+RunBenchmark.main()
 ```
