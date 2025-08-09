@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   release:
@@ -43,7 +43,7 @@ jobs:
 
       - name: Create Git tag
         id: git_tag
-        if: steps.version_check.conclusion == 'success'
+        if: steps.version_check.outcome == 'success'
         run: |
           NEW_VERSION=${{ steps.version.outputs.version }}
           git config --global user.name "GitHub Actions"
@@ -53,7 +53,7 @@ jobs:
           git push origin "$NEW_VERSION"
 
       - name: Create GitHub Release
-        if: steps.git_tag.conclusion == 'success'
+        if: steps.git_tag.outcome == 'success'
         uses: softprops/action-gh-release@v2
         with:
           name: ${{ steps.version.outputs.version }}
