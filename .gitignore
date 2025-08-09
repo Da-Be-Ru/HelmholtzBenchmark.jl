@@ -1,6 +1,7 @@
 *.jl.*.cov
 *.jl.cov
 *.jl.mem
+.vscode
 /data/
 /plots/
 /Manifest.toml
